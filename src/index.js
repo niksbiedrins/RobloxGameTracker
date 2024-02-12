@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Tray } = require('electron');
 const path = require('path');
 
 if (require('electron-squirrel-startup')) {
@@ -16,8 +16,9 @@ const createWindow = () => {
     },
   });
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
-
   mainWindow.webContents.openDevTools();
+
+  tray = new Tray(__dirname + '/assets/img/placeholder.png');
 };
 
 app.on('ready', createWindow);
