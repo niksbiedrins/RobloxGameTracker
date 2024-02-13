@@ -8,6 +8,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    title: `Roblox Game Tracker (${appverison})`,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
@@ -17,14 +18,6 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
   mainWindow.webContents.openDevTools();
 };
-
-app.on('ready', createWindow);
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
 
 var tray = null
 var traylabel
@@ -56,11 +49,11 @@ app.whenReady().then(() => {
   });
 });
 
-
-
 app.on('activate', () => {
 
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
+
+app.on('ready', createWindow);
