@@ -50,7 +50,13 @@ app.whenReady().then(() => {
     tray.setToolTip(`Roblox Game Tracker (${appverison})`)
     tray.setContextMenu(contextMenu)
   });
+
+  ipcMain.on('create_new_window', () => {
+    let newWindow = new BrowserWindow({ width: 800, height: 600 });
+  });
 });
+
+
 
 app.on('activate', () => {
 

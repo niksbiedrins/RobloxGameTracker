@@ -26,6 +26,8 @@ async function checkGameStatus() {
         img.src = imageUrl;
         img.width = 150
         img.height = 150
+
+        return true;
     } else {
         ipcRenderer.send('game_status', { status: game, icon: 'dot_green.png' });
 
@@ -37,9 +39,14 @@ async function checkGameStatus() {
             const img = document.querySelector('img')
             img.src = imageUrl
         })
+
+        return false;
     }
 }
 
-cron.schedule("* * * * * *", () => {
-    checkGameStatus();
-})
+let task = cron.schedule("* * * * * *", async () => {
+    let isWebsite = await checkGameStatus();
+    if (isWebsite) {
+        task.start();
+    }
+});
