@@ -1,30 +1,94 @@
 <!DOCTYPE html>
 <html>
     <style>
+
+        @font-face {
+            font-family: "Titillium Web";
+            src: url("../../fonts/TitilliumWeb-SemiBold.ttf");
+        }
+
+        @font-face {
+            font-family: "Noto Sans";
+            src: url("../../fonts/NotoSans-Regular.ttf");
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         html, body {
             width: 100vw;
             height: 100vh;
             color: white;
             overflow: hidden;
+            font-family: "Titillium Web";
+            font-size: 12px;
+            font-weight: 500;
             will-change: contents;
         }
 
-        #gamelogo {
-            display: block;
-            position: absolute;
-            top: -65px;
-            right: -100px;
-            opacity: 0.1;
-            width: 200px;
-            z-index: -1;
+        #notifycont {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;  
+            background: linear-gradient(90deg, rgba(57,59,61,1) 0%, rgba(35,37,39,1) 100%);
+            background-size: 400% 400%;
+            border-radius: 5px;
+            padding: 10px 0px 10px;
+            transition: 0.2s;
         }
+
+        @keyframes glow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes reveal {
+            0% { transform: scaleX(0%) }
+            100% { transform: scaleX(100%); }
+        }
+
+        @keyframes move {
+            0% { transform: scale(0%, 0%); opacity: 0; }
+            20% { transform: scale(0%, 0%); opacity: 0.1; }
+            80% { transform: scale(1000%, 1000%); opacity: 0.1;}
+            100% { transform: scale(1000%, 1000%); opacity: 0;}
+        }
+
+        #track {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            margin-top: -3px;
+            margin-bottom: 1px;
+        }
+
+        #gamename {
+            font-family: "Noto Sans";
+            font-size: 10px;
+            font-weight: 500;
+            word-wrap: break-word;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 100px;
+        }
+
     </style>
     <body>
-        <div>
-            <img id="gamelogo" src="" width="20px">
-            <div id="textcont">
-                <div id="track">NOW TRACKING:</div>
-                <div id="gamename"></div>
+        <div id="cont">
+            <div id="notifycont">
+                <img id="gamelogo" src="">
+                <div id="textcont">
+                    <div id="track">NOW TRACKING:</div>
+                    <div id="gamename"></div>
+                </div>
             </div>
         </div>
     </body>
@@ -34,20 +98,19 @@
         const path = require("path")
 
         ipcRenderer.on("track", (event, game, placeid) => {
+
             var imageUrl
 
-            function GetGameIcon() {
-                var gameInfo = `https://thumbnails.roblox.com/v1/places/gameicons?placeIds=${placeid}&returnPolicy=PlaceHolder&size=50x50&format=Png&isCircular=false`
-                fetch(gameInfo).then(responce => responce.json()).then(data => {
-                    imageUrl = data.data[0].imageUrl
-                    imageUrl = imageUrl.replace("50/50", "20/20")
-                })
+            var gameInfo = `https://thumbnails.roblox.com/v1/places/gameicons?placeIds=${placeid}&returnPolicy=PlaceHolder&size=50x50&format=Png&isCircular=false`
+            fetch(gameInfo).then(responce => responce.json()).then(data => {
+                imageUrl = data.data[0].imageUrl
+                imageUrl = imageUrl.replace("50/50", "20/20")
 
-                document.getElementById("gamename").innerHTML = game
-                document.getElementById("gamelogo").src = imageUrl
-            }
+                const img = document.querySelector('img')
+                img.src = imageUrl
+            })
 
-            GetGameIcon()
+            document.getElementById("gamename").innerHTML = game;
         })
     </script>
 </html>

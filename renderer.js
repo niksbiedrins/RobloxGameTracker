@@ -22,13 +22,11 @@ async function checkStatus() {
     if (game === "Website") {
         ipcRenderer.send('game_status', { status: 'No Game Detected', icon: 'dot_red.png' });
 
-        imageUrl = 'img/website.png';
+        placeholder = 'img/website.png';
         const img = document.querySelector('img');
-        img.src = imageUrl;
+        img.src = placeholder;
         img.width = 150
         img.height = 150
-
-        
 
         return true;
     } else {
@@ -42,8 +40,6 @@ async function checkStatus() {
             const img = document.querySelector('img')
             img.src = imageUrl
         })
-
-        
 
         return false;
     }
@@ -66,7 +62,7 @@ let task = cron.schedule("* * * * * *", async() => {
       fs.writeFileSync(path.join(__dirname,"data","config.json"), JSON.stringify(config, null, 2))
 
       ipcRenderer.send("trackgame", game, placeid)
-      
+
       setTimeout(() => {
         ipcRenderer.send("trackstop")
       }, 5000)
