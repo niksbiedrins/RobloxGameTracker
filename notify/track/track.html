@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            color: white;
+            overflow: hidden;
+            will-change: contents;
+        }
+    </style>
+    <body>
+        <div>
+            <img id="gamelogo" src="" width="20px">
+            <div id="textcont">
+                <div id="track">NOW TRACKING:</div>
+                <div id="gamename"></div>
+            </div>
+        </div>
+    </body>
+    <script>
+        const { ipcRenderer } = require('electron')
+        const fs = require("fs")
+        const path = require("path")
+
+        ipcRenderer.on("track", (event, game, placeid) => {
+            var imageUrl
+
+            function GetGameIcon() {
+                var gameInfo = `https://thumbnails.roblox.com/v1/places/gameicons?placeIds=${placeid}&returnPolicy=PlaceHolder&size=50x50&format=Png&isCircular=false`
+                fetch(gameInfo).then(responce => responce.json()).then(data => {
+                    imageUrl = data.data[0].imageUrl
+                    imageUrl = imageUrl.replace("50/50", "150/150")
+
+                    const img = document.get
+                })
+
+                document.getElementById("gamename").innerHTML = game
+            }
+
+            GetGameIcon()
+        })
+    </script>
+</html>

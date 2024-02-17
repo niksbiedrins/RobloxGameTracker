@@ -1,8 +1,11 @@
 const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain } = require('electron');
 const path = require('path');
+const fs = require('fs')
 const appverison = "1.0.0"
 
 var appicon = path.join(__dirname, "icon", "rgticon.png")
+
+const config = JSON.parse(fs.readFileSync(path.join(__dirname,"data","config.json")))
 
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -37,6 +40,13 @@ app.whenReady().then(() => {
         label: "",
         type: "separator"
       },
+      {
+        label: "Exit",
+        //icon: nativeImage.createFromPath(path.join(__dirname,"img","close.png")).resize({ width: 16 }),
+        click: () => {
+          app.quit()
+        }
+      }
     ]
   
     const contextMenu = Menu.buildFromTemplate(menuTemplate)
@@ -46,6 +56,44 @@ app.whenReady().then(() => {
 
   ipcMain.on('create_new_window', () => {
     let newWindow = new BrowserWindow({ width: 800, height: 600 });
+  });
+
+  ipcMain.on('trackgame', (event, game, placeid) => {
+    const trackwin = new BrowserWindow({
+      width: 165,
+      height: 65,
+      title: 'trackwin',
+      frame: false,
+      resizable: false,
+      movable: false,
+      fullscreenable: false,
+      focusable: false,
+      skipTaskbar: true,
+      transparent: true,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+        backgroundThrottling: false
+      }
+    })
+    trackwin.setIgnoreMouseEvents(true)
+    trackwin.setAlwaysOnTop(true, 'screen-saver')
+
+    trackwin.loadFile(path.join(__dirname,"notify","track","track.html"))
+
+    //! Weird tracking window display issue
+    setTimeout(() => {
+      trackwin.once("ready-to-show", () => {
+        if (config.tracking == "true") {
+          trackwin.show()
+        } else {
+          trackwin.hide()
+        }
+        
+        trackwin.webContents.send('track', game, placeid)
+      })
+    }, 1000)
   });
 });
 
