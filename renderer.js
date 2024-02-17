@@ -28,8 +28,7 @@ async function checkStatus() {
         img.width = 150
         img.height = 150
 
-        config["tracking"] = "false"
-        fs.writeFileSync(path.join(__dirname,"data","config.json"), JSON.stringify(config, null, 2))
+        
 
         return true;
     } else {
@@ -44,8 +43,7 @@ async function checkStatus() {
             img.src = imageUrl
         })
 
-        config["tracking"] = "true"
-        fs.writeFileSync(path.join(__dirname,"data","config.json"), JSON.stringify(config, null, 2))
+        
 
         return false;
     }
@@ -57,10 +55,21 @@ let task = cron.schedule("* * * * * *", async() => {
   let isWebsite = await checkStatus();
   if (websiteState != isWebsite) {
     if (isWebsite) {
+      config["tracking"] = "false"
+      fs.writeFileSync(path.join(__dirname,"data","config.json"), JSON.stringify(config, null, 2))
+
       console.log("In website")
     } else {
       console.log("In game")
+
+      config["tracking"] = "true"
+      fs.writeFileSync(path.join(__dirname,"data","config.json"), JSON.stringify(config, null, 2))
+
       ipcRenderer.send("trackgame", game, placeid)
+      
+      setTimeout(() => {
+        ipcRenderer.send("trackstop")
+      }, 5000)
     }
     websiteState = isWebsite;
   }

@@ -5,8 +5,6 @@ const appverison = "1.0.0"
 
 var appicon = path.join(__dirname, "icon", "rgticon.png")
 
-const config = JSON.parse(fs.readFileSync(path.join(__dirname,"data","config.json")))
-
 const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -81,19 +79,30 @@ app.whenReady().then(() => {
     trackwin.setAlwaysOnTop(true, 'screen-saver')
 
     trackwin.loadFile(path.join(__dirname,"notify","track","track.html"))
-
-    //! Weird tracking window display issue
-    setTimeout(() => {
-      trackwin.once("ready-to-show", () => {
-        if (config.tracking == "true") {
-          trackwin.show()
-        } else {
-          trackwin.hide()
+    
+    trackwin.once('ready-to-show', async () => {
+        const configData = JSON.parse(fs.readFileSync(path.join(__dirname, "data", "config.json")));
+        try {
+            if (configData.tracking == "true") {
+                console.log("If Try working")
+                trackwin.show()
+            } else {
+                trackwin.hide()
+                console.log("else try working")
+            }
+        } catch {
+            console.log("catch working")
+            trackwin.show()
         }
-        
+
         trackwin.webContents.send('track', game, placeid)
-      })
-    }, 1000)
+        console.log("sent webcontents")
+    })
+
+    ipcMain.on("trackstop", () => {
+      trackwin.destroy()
+      console.log("destroyed window")
+    }) 
   });
 });
 

@@ -8,6 +8,16 @@
             overflow: hidden;
             will-change: contents;
         }
+
+        #gamelogo {
+            display: block;
+            position: absolute;
+            top: -65px;
+            right: -100px;
+            opacity: 0.1;
+            width: 200px;
+            z-index: -1;
+        }
     </style>
     <body>
         <div>
@@ -30,12 +40,11 @@
                 var gameInfo = `https://thumbnails.roblox.com/v1/places/gameicons?placeIds=${placeid}&returnPolicy=PlaceHolder&size=50x50&format=Png&isCircular=false`
                 fetch(gameInfo).then(responce => responce.json()).then(data => {
                     imageUrl = data.data[0].imageUrl
-                    imageUrl = imageUrl.replace("50/50", "150/150")
-
-                    const img = document.get
+                    imageUrl = imageUrl.replace("50/50", "20/20")
                 })
 
                 document.getElementById("gamename").innerHTML = game
+                document.getElementById("gamelogo").src = imageUrl
             }
 
             GetGameIcon()
