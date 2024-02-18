@@ -104,7 +104,7 @@
             var gameInfo = `https://thumbnails.roblox.com/v1/places/gameicons?placeIds=${placeid}&returnPolicy=PlaceHolder&size=50x50&format=Png&isCircular=false`
             fetch(gameInfo).then(responce => responce.json()).then(data => {
                 imageUrl = data.data[0].imageUrl
-                imageUrl = imageUrl.replace("50/50", "20/20")
+                //imageUrl = imageUrl.replace("50/50", "20/20")
 
                 const img = document.querySelector('img')
                 img.src = imageUrl
