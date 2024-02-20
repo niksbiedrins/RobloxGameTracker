@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+html {
+    background-color: #232527;
+    font-family: 'Open Sans', sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.gameinfo {
+    display: flex;
+    align-items: flex-start;
+}
+
+#icon {
+    border-radius: 15px;
+    border: 2px solid white;
+}
+
+label, span, p {
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+    margin-left: 7px;
+}
+
+li {
+    list-style-type: none;
+}
+
+ul { 
+    margin: 0;
+    padding: 0;
+}

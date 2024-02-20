@@ -3,17 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <title>Roblox Game Tracker</title>
-    <link rel="stylesheet" href="index.css" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="index.css">
   </head>
   <body>
-    <div class="container">
-      <div>
-        <img src="" class="icon">
-      </div>
-      <div>
-        <label>No Game Detected</label>
-      </div>
+    <div class="gameinfo">
+      <img src="" id="icon">
+      <ul>
+        <li>
+          <label id="game">No Game Detected</label>
+        </li>
+        <li>
+          <label id="placeid">No Place ID Detected</label>
+        </li>
+      </ul>
     </div>
+    <script src="renderer.js"></script>
   </body>
-  <script src="renderer.js"></script>
 </html>
