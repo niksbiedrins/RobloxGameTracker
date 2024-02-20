@@ -8,3 +8,4 @@ The Roblox Game Tracker is designed to accurately track the games you play in re
 
 **PREREQUISITES:**
 - An **[Roblox Cookie]** for your Roblox account
+> *The purpose of the Roblox Cookie is to enhance game tracking precision while also minimizing potential issues and reducing memory usage.*
